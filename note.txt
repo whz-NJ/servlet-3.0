@@ -1,0 +1,18 @@
+8.2.4 Shared libraries / runtimes pluggability 这一章节很重要。
+1. Servlet 容器启动会扫描当前容器应用每个Jar包的
+   ServletContainerInitializer 的实现
+2. 提供 ServletContainerInitializer 实现类。
+3. 提供的 ServletContainerInitializer 实现类的全类名必须在 META-INF/services 目录的 javax.servlet.ServletContainerInitializer 文件里声明。
+总结：容器在启动应用时，会扫描当前应用的每个jar包里的 META-INF/services/javax.servlet.ServletContainerInitializer 文件指定实现类。
+      启动运行这个实现类的方法，并在方法接口传入感兴趣的类型。 @HandlerTypes ServletContainerInitializer。
+
+=============== Servlet 3.0 提出的异步请求处理 ==============
+在Servlet 3.0 之前，Servlet采用Thread-Per-Request的方式处理请求。
+即每一次Http请求都由某一个线程从头到尾负责处理。
+如果一个请求处理过程中需要进行IO操作，比如访问数据库、调用第三方服务接口等，那么其所对应的线程将同步第等待IO操作完成，而IO操作
+是非常慢的，所以此时的线程并不能及时地释放回线程池，以供后续使用，在并发量越来越大的情况下，这将带来严重的性能问题。即使像Spring
+Struts这样的高层框架也脱离不了这样的桎梏，因为它们都是建立在Servlet之上。为了解决这个问题，Servlet 3.0引入了异步处理。
+在官网 https://jcp.org/en/home/index 上搜索 servlet 3.0 规范，找到规范文档： servlet-3_0-mrel-spec.pdf 的 9.6 Obtaining an AsyncContext 节。
+
+HelloAsyncServlet 从控制台信息可以看出，虽然收请求的线程和处理业务逻辑的线程是不同线程，
+但它们还是在一个线程池里，Spring MVC支持对业务逻辑处理配置独立线程池。
