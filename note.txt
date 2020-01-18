@@ -1,4 +1,4 @@
-8.2.4 Shared libraries / runtimes pluggability 这一章节很重要。
+官网 https://jcp.org/en/home/index 上搜索 servlet 3.0 规范，8.2.4 Shared libraries / runtimes pluggability 这一章节很重要。
 1. Servlet 容器启动会扫描当前容器应用每个Jar包的
    ServletContainerInitializer 的实现
 2. 提供 ServletContainerInitializer 实现类。
